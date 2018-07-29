@@ -1,0 +1,63 @@
+package restclient
+
+import (
+	"fmt"
+
+	"../../contracts"
+)
+
+func LoadUserGames(userId string) []contracts.UserGameSmall {
+
+	var games []contracts.UserGameSmall
+
+	games = append(games, contracts.UserGameSmall{GameId: 123, Word: []rune{'h', '_', 'l', 'l', '_'}, Completed: false})
+	games = append(games, contracts.UserGameSmall{GameId: 234, Word: []rune{'k', 'i', 'n', 'g'}, Completed: true})
+	games = append(games, contracts.UserGameSmall{GameId: 345, Word: []rune{'t', 'r', '_', '_'}, Completed: false})
+	games = append(games, contracts.UserGameSmall{GameId: 456, Word: []rune{'t', 'r', 'a', 'i', 'n'}, Completed: false})
+
+	return games
+}
+
+func LoadNewGame(userId string) contracts.UserGame {
+
+	var guesses []rune
+
+	var game = contracts.UserGame{GameId: 123, UserId: userId, Word: "hello", Guesses: guesses}
+	return game
+}
+
+func LoadGame(userId string, gameId int) contracts.UserGame {
+
+	var guesses []rune
+
+	var game = contracts.UserGame{GameId: 123, UserId: userId, Word: "hello", Guesses: guesses}
+	return game
+}
+
+func UpdateUserGame(userId string, gameId int, guesses []rune, gameCompleted bool) {
+
+	var userGame = contracts.UpdateUserGame{GameId: gameId, UserId: userId, Guesses: guesses, IsCompleted: gameCompleted}
+
+	fmt.Println(userGame)
+}
+
+// for {
+
+// 	resp, err := http.Get("http://localhost:8000/people")
+
+// 	if err != nil {
+// 		fmt.Println(err)
+// 	} else {
+// 		defer resp.Body.Close()
+// 		body, err := ioutil.ReadAll(resp.Body)
+// 		if err != nil {
+// 			fmt.Println(err)
+// 		} else {
+// 			fmt.Println(string(body))
+// 		}
+// 	}
+
+// 	if text == "exit" {
+// 		break
+// 	}
+// }
