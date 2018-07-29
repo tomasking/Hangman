@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"../../contracts"
-	"../gameengine"
+	"../model"
 )
 
 func DisplayGames(userGames []contracts.UserGame) {
@@ -59,17 +59,17 @@ func SelectGame() int {
 	return gameNumber
 }
 
-func DisplayGameState(gameState gameengine.GameState) {
+func DisplayGameState(gameState model.GameState) {
 
 	status := ""
 	//TODO: Switch
-	if gameState.Status == gameengine.Completed {
+	if gameState.Status == model.Completed {
 		status = "(COMPLETED!)"
-	} else if gameState.Status == gameengine.LastGoWasHit {
+	} else if gameState.Status == model.LastGoWasHit {
 		status = "(HIT)"
-	} else if gameState.Status == gameengine.LastGoWasMiss {
+	} else if gameState.Status == model.LastGoWasMiss {
 		status = "(MISS)"
-	} else if gameState.Status == gameengine.AlreadyGuessedLetter {
+	} else if gameState.Status == model.AlreadyGuessedLetter {
 		status = "(Already guessed this letter)"
 	}
 

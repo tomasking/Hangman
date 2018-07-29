@@ -8,10 +8,12 @@ import (
 	"../../contracts"
 )
 
+const baseUserDir = "./repository/userdb/"
+
 func LoadUserGames(userId string) []contracts.UserGame {
 
 	var userGames []contracts.UserGame
-	filename := "./repository/userdb/" + userId + ".txt"
+	filename := baseUserDir + userId + ".txt"
 
 	dat, err := ioutil.ReadFile(filename)
 	if err != nil {
@@ -52,7 +54,6 @@ func UpdateUserGame(userId string, gameId int, gameState contracts.UpdateUserGam
 	found := false
 
 	for index, userGame := range userGames {
-
 		if gameId == userGame.GameId {
 			userGame.GameId = gameId
 			userGame.Guesses = gameState.Guesses
@@ -62,7 +63,6 @@ func UpdateUserGame(userId string, gameId int, gameState contracts.UpdateUserGam
 			found = true
 			break
 		}
-
 	}
 
 	if !found {
@@ -70,7 +70,7 @@ func UpdateUserGame(userId string, gameId int, gameState contracts.UpdateUserGam
 		userGames = append(userGames, userGame)
 	}
 
-	filename := "./repository/userdb/" + userId + ".txt"
+	filename := baseUserDir + userId + ".txt"
 	contents, _ := json.Marshal(userGames)
 	ioutil.WriteFile(filename, []byte(contents), 0644)
 

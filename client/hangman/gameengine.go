@@ -1,10 +1,11 @@
-package gameengine
+package hangman
 
 import (
 	"../../contracts"
+	"../model"
 )
 
-func Initialize(game contracts.UserGame) GameState {
+func Initialize(game contracts.UserGame) model.GameState {
 
 	var guessedWord []rune
 	for _, letter := range game.Word {
@@ -15,15 +16,15 @@ func Initialize(game contracts.UserGame) GameState {
 		}
 	}
 
-	currentState := GameState{GameId: game.GameId, Word: game.Word, Guesses: game.Guesses, GuessedWord: guessedWord, Status: NewGame}
+	currentState := model.GameState{GameId: game.GameId, Word: game.Word, Guesses: game.Guesses, GuessedWord: guessedWord, Status: model.NewGame}
 
 	return currentState
 }
 
-func GuessLetter(currentState GameState, letter rune) GameState {
+func GuessLetter(currentState model.GameState, letter rune) model.GameState {
 
 	if contains(currentState.Guesses, letter) {
-		currentState.Status = AlreadyGuessedLetter
+		currentState.Status = model.AlreadyGuessedLetter
 		return currentState
 	}
 
@@ -36,11 +37,11 @@ func GuessLetter(currentState GameState, letter rune) GameState {
 	}
 
 	if string(currentState.GuessedWord) == currentState.Word {
-		currentState.Status = Completed
+		currentState.Status = model.Completed
 	} else if hit {
-		currentState.Status = LastGoWasHit
+		currentState.Status = model.LastGoWasHit
 	} else {
-		currentState.Status = LastGoWasMiss
+		currentState.Status = model.LastGoWasMiss
 	}
 
 	currentState.Guesses = append(currentState.Guesses, string(letter))
