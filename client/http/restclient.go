@@ -17,16 +17,17 @@ func NewRestClient() RestLayer {
 	return &RestClient{}
 }
 
+const baseUrl = "http://localhost:8000/usergame" // this should come from config
+
 func (m RestClient) LoadUserGames(userId string) []contracts.UserGame {
 
 	var userGames []contracts.UserGame
 
-	body, err := getRequest("http://localhost:8000/usergame?user=" + userId)
+	body, err := getRequest(baseUrl + "?user=" + userId)
 
 	if err != nil {
 		log.Fatal("Could not load request: ", err)
 	} else {
-
 		err = json.Unmarshal(body, &userGames)
 		if err != nil {
 			log.Fatal("Could not json decode user games", err)
@@ -40,12 +41,11 @@ func (m RestClient) LoadNewGame(userId string) contracts.UserGame {
 
 	var userGame contracts.UserGame
 
-	body, err := getRequest("http://localhost:8000/usergame/new?user=" + userId)
+	body, err := getRequest(baseUrl + "/new?user=" + userId)
 
 	if err != nil {
 		log.Fatal("Could not load request: ", err)
 	} else {
-
 		err = json.Unmarshal(body, &userGame)
 		if err != nil {
 			log.Fatal("Could not json decode user game", err)
@@ -58,7 +58,7 @@ func (m RestClient) LoadGame(userId string, gameId int) contracts.UserGame {
 
 	var userGame contracts.UserGame
 
-	url := "http://localhost:8000/usergame/" + strconv.Itoa(gameId) + "?user=" + userId
+	url := baseUrl + "/" + strconv.Itoa(gameId) + "?user=" + userId
 	body, err := getRequest(url)
 
 	if err != nil {
@@ -98,15 +98,12 @@ func (m RestClient) UpdateUserGame(userId string, gameId int, guesses []string, 
 
 	body := bytes.NewBufferString(string(contents))
 
-	url := "http://localhost:8000/usergame/" + strconv.Itoa(gameId) + "?user=" + userId
+	url := baseUrl + "/" + strconv.Itoa(gameId) + "?user=" + userId
 
 	rsp, err := http.Post(url, "application/json", body)
 	if err != nil {
-		panic(err)
+		log.Println(err)
+		return // ignore error allowing user to carry on, hopefully it works next time
 	}
 	defer rsp.Body.Close()
-	_, err = ioutil.ReadAll(rsp.Body)
-	if err != nil {
-		panic(err)
-	}
 }

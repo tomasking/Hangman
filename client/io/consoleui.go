@@ -69,14 +69,15 @@ func (m *ConsoleUI) SelectGame() int {
 func (m *ConsoleUI) DisplayGameState(gameState model.GameState) {
 
 	status := ""
-	//TODO: Switch
-	if gameState.Status == model.Completed {
+
+	switch gameState.Status {
+	case model.Completed:
 		status = "(COMPLETED!)"
-	} else if gameState.Status == model.LastGoWasHit {
+	case model.LastGoWasHit:
 		status = "(HIT)"
-	} else if gameState.Status == model.LastGoWasMiss {
+	case model.LastGoWasMiss:
 		status = "(MISS)"
-	} else if gameState.Status == model.AlreadyGuessedLetter {
+	case model.AlreadyGuessedLetter:
 		status = "(Already guessed this letter)"
 	}
 

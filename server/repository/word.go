@@ -15,7 +15,7 @@ func LoadWord() (string, int) {
 		words = loadFile()
 	}
 
-	gamenumber := rand.Intn(851)
+	gamenumber := rand.Intn(851) //The random selection of new games doesn't seem to be that random
 	word := strings.ToLower(words[gamenumber])
 	return word, gamenumber
 }
