@@ -1,4 +1,4 @@
-package restclient
+package http
 
 import (
 	"bytes"
@@ -11,7 +11,13 @@ import (
 	"../../contracts"
 )
 
-func LoadUserGames(userId string) []contracts.UserGame {
+type RestClient struct{}
+
+func NewRestClient() RestLayer {
+	return &RestClient{}
+}
+
+func (m RestClient) LoadUserGames(userId string) []contracts.UserGame {
 
 	var userGames []contracts.UserGame
 
@@ -30,7 +36,7 @@ func LoadUserGames(userId string) []contracts.UserGame {
 	return userGames
 }
 
-func LoadNewGame(userId string) contracts.UserGame {
+func (m RestClient) LoadNewGame(userId string) contracts.UserGame {
 
 	var userGame contracts.UserGame
 
@@ -48,7 +54,7 @@ func LoadNewGame(userId string) contracts.UserGame {
 	return userGame
 }
 
-func LoadGame(userId string, gameId int) contracts.UserGame {
+func (m RestClient) LoadGame(userId string, gameId int) contracts.UserGame {
 
 	var userGame contracts.UserGame
 
@@ -84,7 +90,7 @@ func getRequest(url string) ([]byte, error) {
 	return body, nil
 }
 
-func UpdateUserGame(userId string, gameId int, guesses []string, gameCompleted bool, word string) {
+func (m RestClient) UpdateUserGame(userId string, gameId int, guesses []string, gameCompleted bool, word string) {
 
 	var userGame = contracts.UpdateUserGame{Guesses: guesses, Completed: gameCompleted, Word: word}
 

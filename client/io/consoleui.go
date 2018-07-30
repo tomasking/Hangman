@@ -1,4 +1,4 @@
-package ui
+package io
 
 import (
 	"bufio"
@@ -12,7 +12,14 @@ import (
 	"../model"
 )
 
-func DisplayGames(userGames []contracts.UserGame) {
+type ConsoleUI struct{}
+
+func NewConsoleUI() UI {
+	uilayer := &ConsoleUI{}
+	return uilayer
+}
+
+func (m ConsoleUI) DisplayGames(userGames []contracts.UserGame) {
 
 	fmt.Println("")
 	fmt.Println("Select Game")
@@ -44,7 +51,7 @@ func DisplayGames(userGames []contracts.UserGame) {
 	}
 }
 
-func SelectGame() int {
+func (m *ConsoleUI) SelectGame() int {
 	fmt.Print("Select game: ")
 	reader := bufio.NewReader(os.Stdin)
 
@@ -59,7 +66,7 @@ func SelectGame() int {
 	return gameNumber
 }
 
-func DisplayGameState(gameState model.GameState) {
+func (m *ConsoleUI) DisplayGameState(gameState model.GameState) {
 
 	status := ""
 	//TODO: Switch
@@ -81,7 +88,7 @@ func DisplayGameState(gameState model.GameState) {
 	fmt.Println(status)
 }
 
-func ReadGuess() rune {
+func (m *ConsoleUI) ReadGuess() rune {
 	reader := bufio.NewReader(os.Stdin)
 
 	guess, _, _ := reader.ReadRune()

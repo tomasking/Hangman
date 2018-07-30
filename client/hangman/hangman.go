@@ -2,14 +2,15 @@ package hangman
 
 import (
 	"../../contracts"
+	"../http"
+	"../io"
 	"../model"
-	"../restclient"
-	"../ui"
 )
 
-func SelectGame(userId string) contracts.UserGame {
+func SelectGame(ui io.UI, restclient http.RestLayer, userId string) contracts.UserGame {
 	games := restclient.LoadUserGames(userId)
 	ui.DisplayGames(games)
+
 	gameId := ui.SelectGame()
 
 	var game contracts.UserGame
@@ -22,7 +23,7 @@ func SelectGame(userId string) contracts.UserGame {
 	return game
 }
 
-func PlayGame(userId string, game contracts.UserGame) {
+func PlayGame(ui io.UI, restclient http.RestLayer, userId string, game contracts.UserGame) {
 	gameState := Initialize(game)
 	ui.DisplayGameState(gameState)
 
